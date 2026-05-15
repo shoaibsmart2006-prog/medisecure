@@ -17,6 +17,9 @@ public class Appointment {
 
     private String reason;
 
+    @Column(length = 2000)
+    private String doctorNotes;
+
     @ManyToOne
     private User patient;
 
@@ -32,6 +35,7 @@ public class Appointment {
         this.reason = reason;
         this.patient = patient;
         this.doctor = doctor;
+        this.doctorNotes = "";
     }
 
     public Long getId() {
@@ -60,6 +64,14 @@ public class Appointment {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getDoctorNotes() {
+        return doctorNotes;
+    }
+
+    public void setDoctorNotes(String doctorNotes) {
+        this.doctorNotes = doctorNotes;
     }
 
     public User getPatient() {

@@ -54,4 +54,23 @@ public class DoctorController {
 
         return "doctor";
     }
+
+    @PostMapping("/doctor/notes")
+    public String saveNotes(
+            @RequestParam Long appointmentId,
+            @RequestParam String doctorNotes,
+            Authentication authentication,
+            Model model
+    ) {
+        appointmentService.saveDoctorNotes(appointmentId, doctorNotes);
+
+        String email = authentication.getName();
+        User doctor = userRepository.findByEmail(email).orElse(null);
+
+        model.addAttribute("doctorName", doctor.getName());
+        model.addAttribute("appointments", appointmentService.getDoctorAppointments(doctor));
+        model.addAttribute("message", "Notes saved successfully.");
+
+        return "doctor";
+    }
 }

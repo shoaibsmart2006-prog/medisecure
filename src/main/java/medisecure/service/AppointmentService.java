@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -50,5 +51,15 @@ public class AppointmentService {
 
     public void cancelAppointment(Long appointmentId) {
         appointmentRepository.deleteById(appointmentId);
+    }
+
+    public void saveDoctorNotes(Long appointmentId, String notes) {
+        Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+
+        if (appointment.isPresent()) {
+            Appointment appt = appointment.get();
+            appt.setDoctorNotes(notes);
+            appointmentRepository.save(appt);
+        }
     }
 }

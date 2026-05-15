@@ -66,14 +66,14 @@
             padding: 35px;
         }
 
-        table {
-            border-radius: 16px;
-            overflow: hidden;
+        textarea {
+            min-height: 100px;
+            border-radius: 12px;
         }
 
-        .btn-danger {
+        .btn-danger,
+        .btn-success {
             border-radius: 12px;
-            padding: 8px 18px;
         }
     </style>
 </head>
@@ -105,8 +105,7 @@
                 <h4 class="text-primary fw-bold mt-3" th:text="${doctorName}"></h4>
 
                 <p class="mt-3">
-                    Manage patient appointments, monitor schedules,
-                    and coordinate clinical visits efficiently through MediSecure.
+                    Manage appointments and maintain secure patient notes.
                 </p>
             </div>
 
@@ -144,47 +143,70 @@
 
     <div class="appointments-card">
 
-        <p class="text-success text-center fw-bold" th:text="${message}"></p>
+        <div th:if="${message}" class="alert alert-success text-center">
+            <span th:text="${message}"></span>
+        </div>
 
         <h2 class="fw-bold mb-4">Patient Appointments</h2>
 
         <div th:if="${appointments != null and !appointments.isEmpty()}">
-            <table class="table table-hover align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Patient</th>
-                        <th>Reason</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    <tr th:each="appointment : ${appointments}">
-                        <td th:text="${appointment.patient.name}"></td>
-                        <td th:text="${appointment.reason}"></td>
-                        <td th:text="${appointment.appointmentDate}"></td>
-                        <td th:text="${appointment.appointmentTime}"></td>
+            <div th:each="appointment : ${appointments}" class="card mb-4 shadow-sm">
+                <div class="card-body">
 
-                        <td>
-                            <form th:action="@{/doctor/cancel}" method="post">
-                                <input type="hidden"
-                                       th:name="${_csrf.parameterName}"
-                                       th:value="${_csrf.token}" />
+                    <h5 class="fw-bold" th:text="${appointment.patient.name}"></h5>
 
-                                <input type="hidden"
-                                       name="appointmentId"
-                                       th:value="${appointment.id}" />
+                    <p>
+                        <strong>Reason:</strong>
+                        <span th:text="${appointment.reason}"></span>
+                    </p>
 
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Cancel
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                    <p>
+                        <strong>Date:</strong>
+                        <span th:text="${appointment.appointmentDate}"></span>
+                        |
+                        <strong>Time:</strong>
+                        <span th:text="${appointment.appointmentTime}"></span>
+                    </p>
+
+                    <form th:action="@{/doctor/notes}" method="post" class="mb-3">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}" />
+
+                        <input type="hidden"
+                               name="appointmentId"
+                               th:value="${appointment.id}" />
+
+                        <label class="form-label fw-bold">Doctor Notes</label>
+
+                        <textarea name="doctorNotes"
+                                  class="form-control"
+                                  th:text="${appointment.doctorNotes}"
+                                  placeholder="Enter patient notes here..."></textarea>
+
+                        <button type="submit" class="btn btn-success mt-3">
+                            Save Notes
+                        </button>
+                    </form>
+
+                    <form th:action="@{/doctor/cancel}" method="post">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}" />
+
+                        <input type="hidden"
+                               name="appointmentId"
+                               th:value="${appointment.id}" />
+
+                        <button type="submit" class="btn btn-danger">
+                            Cancel Appointment
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
         </div>
 
         <div th:if="${appointments == null or appointments.isEmpty()}">
