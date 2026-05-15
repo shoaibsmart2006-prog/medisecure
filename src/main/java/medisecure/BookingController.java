@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Controller
 public class BookingController {
@@ -24,7 +25,9 @@ public class BookingController {
     }
 
     @GetMapping("/book")
-    public String showBookingForm() {
+    public String showBookingForm(Model model) {
+        List<User> doctors = userRepository.findByRole(Role.DOCTOR);
+        model.addAttribute("doctors", doctors);
         return "book";
     }
 
@@ -38,6 +41,9 @@ public class BookingController {
             Model model
     ) {
 
+        List<User> doctors = userRepository.findByRole(Role.DOCTOR);
+        model.addAttribute("doctors", doctors);
+
         doctorName = doctorName.trim();
         reason = reason.trim();
 
@@ -48,6 +54,11 @@ public class BookingController {
 
         if (date.isBefore(LocalDate.now())) {
             model.addAttribute("message", "You cannot book an appointment in the past.");
+            return "book";
+        }
+
+        if (date.equals(LocalDate.now()) && time.isBefore(LocalTime.now())) {
+            model.addAttribute("message", "You cannot book a time that has already passed today.");
             return "book";
         }
 

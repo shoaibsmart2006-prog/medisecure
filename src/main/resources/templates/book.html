@@ -83,7 +83,8 @@
             margin-bottom: 30px;
         }
 
-        .form-control {
+        .form-control,
+        .form-select {
             border-radius: 14px;
             padding: 12px;
         }
@@ -170,12 +171,14 @@
                        th:value="${_csrf.token}" />
 
                 <div class="mb-3">
-                    <label class="form-label">Doctor Name</label>
-                    <input type="text"
-                           name="doctorName"
-                           class="form-control"
-                           placeholder="Enter doctor's full name"
-                           required>
+                    <label class="form-label">Select Doctor</label>
+                    <select name="doctorName" class="form-select" required>
+                        <option value="">Choose a doctor</option>
+                        <option th:each="doctor : ${doctors}"
+                                th:value="${doctor.name}"
+                                th:text="${doctor.name}">
+                        </option>
+                    </select>
                 </div>
 
                 <div class="mb-3">

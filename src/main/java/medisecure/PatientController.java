@@ -1,5 +1,6 @@
 package medisecure;
 
+import medisecure.model.Role;
 import medisecure.model.User;
 import medisecure.repository.UserRepository;
 import medisecure.service.AppointmentService;
@@ -33,6 +34,7 @@ public class PatientController {
 
         model.addAttribute("patientName", patient.getName());
         model.addAttribute("appointments", appointmentService.getPatientAppointments(patient));
+        model.addAttribute("doctorCount", userRepository.findByRole(Role.DOCTOR).size());
 
         return "patient";
     }
