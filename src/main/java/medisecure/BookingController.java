@@ -38,6 +38,19 @@ public class BookingController {
             Model model
     ) {
 
+        doctorName = doctorName.trim();
+        reason = reason.trim();
+
+        if (reason.isEmpty()) {
+            model.addAttribute("message", "Reason cannot be empty.");
+            return "book";
+        }
+
+        if (date.isBefore(LocalDate.now())) {
+            model.addAttribute("message", "You cannot book an appointment in the past.");
+            return "book";
+        }
+
         String patientEmail = authentication.getName();
 
         User patient = userRepository.findByEmail(patientEmail).orElse(null);

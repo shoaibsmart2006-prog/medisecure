@@ -32,6 +32,20 @@ public class SignupController {
             @RequestParam String role,
             Model model
     ) {
+
+        name = name.trim();
+        email = email.trim().toLowerCase();
+
+        if (name.isEmpty()) {
+            model.addAttribute("message", "Name cannot be empty.");
+            return "signup";
+        }
+
+        if (password.length() < 6) {
+            model.addAttribute("message", "Password must be at least 6 characters.");
+            return "signup";
+        }
+
         if (userRepository.findByEmail(email).isPresent()) {
             model.addAttribute("message", "Email already registered.");
             return "signup";
