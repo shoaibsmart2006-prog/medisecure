@@ -133,8 +133,8 @@
         <div class="right-panel">
             <h2 class="form-title">Create Your Account</h2>
 
-            <div th:if="${error}" class="alert alert-danger text-center">
-                <span th:text="${error}"></span>
+            <div th:if="${message}" class="alert alert-danger text-center">
+                <span th:text="${message}"></span>
             </div>
 
             <form th:action="@{/signup}" method="post">
