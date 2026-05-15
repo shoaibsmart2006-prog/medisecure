@@ -20,10 +20,17 @@ public class AppointmentService {
 
     public boolean bookAppointment(User patient, User doctor, LocalDate date, LocalTime time, String reason) {
 
-        boolean alreadyBooked = appointmentRepository
+        boolean doctorAlreadyBooked = appointmentRepository
                 .existsByDoctorAndAppointmentDateAndAppointmentTime(doctor, date, time);
 
-        if (alreadyBooked) {
+        if (doctorAlreadyBooked) {
+            return false;
+        }
+
+        boolean patientAlreadyBooked = appointmentRepository
+                .existsByPatientAndAppointmentDateAndAppointmentTime(patient, date, time);
+
+        if (patientAlreadyBooked) {
             return false;
         }
 

@@ -88,7 +88,7 @@ public class BookingController {
         if (booked) {
             model.addAttribute("message", "Appointment booked successfully.");
         } else {
-            model.addAttribute("message", "That doctor is already booked for that time.");
+            model.addAttribute("message", "That appointment time is unavailable.");
         }
 
         return "book";
