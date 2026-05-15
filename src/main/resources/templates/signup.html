@@ -91,6 +91,10 @@
             padding: 12px;
         }
 
+        #doctorKeySection {
+            display: none;
+        }
+
         @media (max-width: 900px) {
             .signup-wrapper {
                 flex-direction: column;
@@ -167,13 +171,21 @@
                            required>
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-3">
                     <label class="form-label">Account Type</label>
-                    <select name="role" class="form-select" required>
+                    <select name="role" class="form-select" id="roleSelect" required>
                         <option value="">Select Role</option>
                         <option value="PATIENT">Patient</option>
                         <option value="DOCTOR">Doctor</option>
                     </select>
+                </div>
+
+                <div class="mb-4" id="doctorKeySection">
+                    <label class="form-label">Doctor Access Key</label>
+                    <input type="password"
+                           name="doctorKey"
+                           class="form-control"
+                           placeholder="Enter doctor access key">
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">
@@ -191,6 +203,19 @@
 
     </div>
 </div>
+
+<script>
+    const roleSelect = document.getElementById("roleSelect");
+    const doctorKeySection = document.getElementById("doctorKeySection");
+
+    roleSelect.addEventListener("change", function() {
+        if (this.value === "DOCTOR") {
+            doctorKeySection.style.display = "block";
+        } else {
+            doctorKeySection.style.display = "none";
+        }
+    });
+</script>
 
 </body>
 </html>

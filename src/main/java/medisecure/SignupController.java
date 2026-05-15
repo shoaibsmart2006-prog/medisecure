@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class SignupController {
 
+    private static final String DOCTOR_ACCESS_KEY = "MediSecureDoctor2026!";
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -30,6 +32,7 @@ public class SignupController {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String role,
+            @RequestParam(required = false) String doctorKey,
             Model model
     ) {
 
@@ -49,6 +52,13 @@ public class SignupController {
         if (userRepository.findByEmail(email).isPresent()) {
             model.addAttribute("message", "Email already registered.");
             return "signup";
+        }
+
+        if (role.equals("DOCTOR")) {
+            if (doctorKey == null || !doctorKey.equals(DOCTOR_ACCESS_KEY)) {
+                model.addAttribute("message", "Invalid doctor access key.");
+                return "signup";
+            }
         }
 
         User user = new User(
