@@ -24,6 +24,8 @@ public class SecurityConfig {
                     "/",
                     "/login",
                     "/signup",
+                    "/forgot-password",
+                    "/reset-password",
                     "/403",
                     "/css/**",
                     "/images/**"

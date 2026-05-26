@@ -151,6 +151,10 @@
                 You have been logged out successfully.
             </div>
 
+            <div th:if="${message}" class="alert alert-success text-center">
+                <span th:text="${message}"></span>
+            </div>
+
             <form th:action="@{/login}" method="post">
 
                 <input type="hidden"
@@ -177,6 +181,10 @@
                     Sign In
                 </button>
             </form>
+
+            <div class="text-center mt-3">
+                <a href="/forgot-password">Forgot Password?</a>
+            </div>
 
             <div class="text-center mt-4">
                 <p>Don't have an account?</p>
