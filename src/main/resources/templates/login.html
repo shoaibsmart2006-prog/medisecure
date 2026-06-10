@@ -151,8 +151,12 @@
                 You have been logged out successfully.
             </div>
 
-            <div th:if="${message}" class="alert alert-success text-center">
-                <span th:text="${message}"></span>
+            <div th:if="${param.signupSuccess}" class="alert alert-success text-center">
+                Account created successfully. Please log in.
+            </div>
+
+            <div th:if="${param.resetSuccess}" class="alert alert-success text-center">
+                Password reset successfully. Please log in.
             </div>
 
             <form th:action="@{/login}" method="post">

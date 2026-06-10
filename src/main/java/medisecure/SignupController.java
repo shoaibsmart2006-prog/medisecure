@@ -70,7 +70,6 @@ public class SignupController {
 
         userRepository.save(user);
 
-        model.addAttribute("message", "Account created. Please log in.");
-        return "login";
+        return "redirect:/login?signupSuccess=true";
     }
 }
